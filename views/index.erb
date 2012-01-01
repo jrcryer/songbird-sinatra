@@ -6,6 +6,7 @@
 <% if @shortcode %>
 	<section class="result">
 		Your shortened URL <%= h(params[:url]) %> is:
-		<a href="http://localhost:4567/<%= @shortcode %>">http://localhost:4567/<%= @shortcode %></a>
+		<a href="http://<%= "localhost:#{Sinatra::Application.port}/#{@shortcode}" %>">
+		http://localhost/<%= @shortcode %></a>
 	</section>
 <% end %>
