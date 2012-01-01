@@ -1,15 +1,23 @@
-require 'sinatra'
-require 'redis'
+require 'mongo_mapper'
+require 'uri'
+require 'digest/md5'
+require './models/url'
 
-redis = Redis.new
+configure :development do
+  MongoMapper.database = 'mongoshort_dev'
+end
+
+configure :test do
+  MongoMapper.database = 'mongoshort_test'
+end
+
+configure :production do
+  MongoMapper.database = 'mongoshort'
+end
 
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
-
-  def random_string(length)
-    rand(36**length).to_s(36)
-  end
 end
 
 get '/' do
@@ -18,17 +26,16 @@ end
 
 post '/' do
   if params[:url] and not params[:url].empty?
-    @shortcode = random_string 5
-    redis.setnx "links:#{@shortcode}", params[:url]
+    @url = URL.find_or_create(params[:url])
   end
   erb :index
 end
 
 get '/:shortcode' do
-  @url = redis.get "links:#{params[:shortcode]}"
-  redirect @url || '/'
-end
-
-not_found do
-  halt 404, 'Not found'
+  url = URL.find_by_url_key(params[:shortcode])
+  if url.nil?
+    raise Sinatra::NotFound
+  else
+    redirect url.full_url, 301
+  end
 end

@@ -3,10 +3,10 @@
 	<input type="submit" value="shorten" id="submit" />
 	<div class="clear"></div>
 </form>
-<% if @shortcode %>
+<% unless @url.nil? %>
 	<section class="result">
 		Your shortened URL <%= h(params[:url]) %> is:
-		<a href="http://<%= "localhost:#{Sinatra::Application.port}/#{@shortcode}" %>">
-		http://localhost/<%= @shortcode %></a>
+		<a href="http://<%= "localhost:#{Sinatra::Application.port}/#{@url.url_key}" %>">
+		http://localhost/<%= @url.url_key %></a>
 	</section>
 <% end %>
