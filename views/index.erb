@@ -1,26 +1,11 @@
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<title>Songbird URLs</title>
-		<link type="text/css" href="/css/reset.css" rel="stylesheet" />
-		<link type="text/css" href="/css/app.css" rel="stylesheet" />
-	</head>
-	<body>
-		<header>
-			<h1>Songbird URLs</h1>
-		</header>
-		<article>
-			<form method="post">
-				<input type="text" value="http://" name="url" id="url" />
-				<input type="submit" value="shorten" id="submit" />
-				<div class="clear"></div>
-			</form>
-			<% if @shortcode %>
-				<section class="result">
-					Your shortened URL <%= h(params[:url]) %> is:
-					<a href="http://localhost:4567/<%= @shortcode %>">http://localhost:4567/<%= @shortcode %></a>
-				</section>
-			<% end %>
-		</article>
-	</body>
-</html>
+<form method="post">
+	<input type="text" value="http://" name="url" id="url" />
+	<input type="submit" value="shorten" id="submit" />
+	<div class="clear"></div>
+</form>
+<% if @shortcode %>
+	<section class="result">
+		Your shortened URL <%= h(params[:url]) %> is:
+		<a href="http://localhost:4567/<%= @shortcode %>">http://localhost:4567/<%= @shortcode %></a>
+	</section>
+<% end %>

@@ -28,3 +28,7 @@ get '/:shortcode' do
   @url = redis.get "links:#{params[:shortcode]}"
   redirect @url || '/'
 end
+
+not_found do
+  halt 404, 'Not found'
+end
